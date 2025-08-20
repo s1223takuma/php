@@ -1,0 +1,22 @@
+# バックアップや一時ファイル
+*.bak
+*.tmp
+*.swp
+# MySQL データベース
+/htdocs/mysql/data/
+*.sql
+# PHP キャッシュ / セッション
+*.log
+*.cache
+*.session
+# XAMPP 特有の設定ファイル
+/htdocs/xampp/
+# IDE / エディタ
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.idea/
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
