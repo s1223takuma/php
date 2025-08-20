@@ -13,7 +13,6 @@ if (isset($_POST["delete"])) {
     unset($data[$_POST["delete"]]);
     file_put_contents("data.txt", implode("\n", $data));
 }
-
 $hobbies = ["読書","ゲーム","プログラミング"];
 $data = file_get_contents("data.txt");
 echo "こんにちは{$name}です。";

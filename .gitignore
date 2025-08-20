@@ -20,3 +20,6 @@
 .DS_Store
 # Windows
 Thumbs.db
+
+#　問題で使ったファイル
+/my_first_project/data.txt
