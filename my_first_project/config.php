@@ -20,9 +20,6 @@ try {
         ]
     );
     
-    // 接続成功
-    echo "✅ データベース接続成功！<br>";
-    
 } catch(PDOException $e) {
     // 接続失敗
     die("❌ データベース接続エラー: " . $e->getMessage());
@@ -32,18 +29,16 @@ function save_user($user_name,$user_age,$pdo){
     // ユーザー情報をデータベースに保存する関数
     $stmt = $pdo->prepare("INSERT INTO users (name, age) VALUES (:name, :age)");
     $stmt->execute([':name' => $user_name, ':age' => $user_age]);
-    echo "✅ ユーザー情報を保存しました！";
 }
-if (isset($_POST["name"])&&isset($_POST["age"])) {
-    $user_name = $_POST["name"];
-    $user_age = $_POST["age"];
-    // ユーザー情報を保存
-    try {
-        save_user($user_name, $user_age, $pdo);
-    } catch (PDOException $e) {
-        echo "❌ DBエラー: " . $e->getMessage();
-    }
-} else {
-    echo "❌ ユーザー情報が送信されていません。";
+
+function get_users($pdo){
+    // ユーザー情報をデータベースから取得する関数
+    $stmt = $pdo->query("SELECT * FROM users ORDER BY ID DESC");
+    return $stmt->fetchAll();
+}
+
+function delete_user($id,$pdo){
+    $stmt = $pdo->prepare("DELETE FROM users WHERE ID = :id");
+    $stmt->execute([':id' => $id]);
 }
 ?>
