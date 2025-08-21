@@ -43,7 +43,6 @@ if (isset($_POST["name"])&&isset($_POST["age"])) {
     } catch (PDOException $e) {
         echo "❌ DBエラー: " . $e->getMessage();
     }
-
 } else {
     echo "❌ ユーザー情報が送信されていません。";
 }
