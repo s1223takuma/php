@@ -40,7 +40,7 @@
 * age (INT)
 * created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
 
-##　問題7
+## 問題7
 ### 1.PHPでMySQLに接続するコードを書いてください：
 * PDOを使用
 * ホスト：localhost

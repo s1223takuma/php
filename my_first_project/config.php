@@ -3,7 +3,7 @@
 
 // データベース接続情報
 $db_host = 'localhost';
-$db_name = 'my_first_db';  // phpMyAdminで作成したDB名
+$db_name = 'user_data';  // phpMyAdminで作成したDB名
 $db_user = 'root';         // XAMPPのデフォルトユーザー
 $db_pass = '';             // XAMPPのデフォルトパスワード（空）
 
@@ -21,34 +21,30 @@ try {
     );
     
     // 接続成功
-    // echo "✅ データベース接続成功！";
+    echo "✅ データベース接続成功！<br>";
     
 } catch(PDOException $e) {
     // 接続失敗
     die("❌ データベース接続エラー: " . $e->getMessage());
 }
 
-// テーブル作成関数
-function createTables($pdo) {
-    $sql = "
-        CREATE TABLE IF NOT EXISTS messages (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            message TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-    ";
-    
-    try {
-        $pdo->exec($sql);
-        return "✅ テーブル作成完了";
-    } catch(PDOException $e) {
-        return "❌ テーブル作成エラー: " . $e->getMessage();
-    }
+function save_user($user_name,$user_age,$pdo){
+    // ユーザー情報をデータベースに保存する関数
+    $stmt = $pdo->prepare("INSERT INTO users (name, age) VALUES (:name, :age)");
+    $stmt->execute([':name' => $user_name, ':age' => $user_age]);
+    echo "✅ ユーザー情報を保存しました！";
 }
+if (isset($_POST["name"])&&isset($_POST["age"])) {
+    $user_name = $_POST["name"];
+    $user_age = $_POST["age"];
+    // ユーザー情報を保存
+    try {
+        save_user($user_name, $user_age, $pdo);
+    } catch (PDOException $e) {
+        echo "❌ DBエラー: " . $e->getMessage();
+    }
 
-// 初回実行時のセットアップ
-if (isset($_GET['setup'])) {
-    echo createTables($pdo);
+} else {
+    echo "❌ ユーザー情報が送信されていません。";
 }
 ?>

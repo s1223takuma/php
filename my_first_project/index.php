@@ -37,7 +37,7 @@ echo "<br>";
     <title>お問い合わせフォーム</title>
   </head>
   <body>
-    <form method="post" action="index.php">
+    <form method="post" action="config.php">
       <label for="name">名前:</label><br>
       <input type="text" id="name" name="name"><br>
       <label for="age">年齢:</label><br>
