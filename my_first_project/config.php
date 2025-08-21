@@ -37,6 +37,12 @@ function get_users($pdo){
     return $stmt->fetchAll();
 }
 
+function get_user($keyword, $pdo){
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword");
+    $stmt->execute([':keyword' => "%{$keyword}%"]);
+    return $stmt->fetchAll();
+}
+
 function delete_user($id,$pdo){
     $stmt = $pdo->prepare("DELETE FROM users WHERE ID = :id");
     $stmt->execute([':id' => $id]);

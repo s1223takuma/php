@@ -1,5 +1,8 @@
 <?php
 require_once 'config.php';
+$name = null;
+$age = null;
+$data = get_users($pdo);
 if (isset($_POST["submit"])){
     if (isset($_POST["name"]) && isset($_POST["age"])) {
         $name = $_POST["name"];
@@ -25,9 +28,12 @@ if (isset($_POST["submit"])){
 //     file_put_contents("data.txt", implode("\n", $data));
 // }
 
-$hobbies = ["読書","ゲーム","プログラミング"];
 // $data = file_get_contents("data.txt");
-$data = get_users($pdo);
+else if (isset($_POST["search"]) && $_POST["search"] != "") {
+    $data = get_user($_POST["search"], $pdo);
+}
+
+$hobbies = ["読書","ゲーム","プログラミング"];
 echo "{$name}です。<br>";
 echo "年齢は{$age}歳です。<br>";
 echo "趣味は";
@@ -59,6 +65,11 @@ echo "<br>";
             <input type="submit" name="submit" value="送信"><br>
         </form>
         <h2>送信されたデータ</h2>
+        <form method="post" action="index.php">
+            <input type="text" name="search" placeholder="名前で検索">
+            <input type="submit" value="検索">
+        </form>
+        <h2>ユーザー一覧</h2>
         <form method="post" action="index.php">
             <?php
             foreach ($data as $index => $line) {
