@@ -24,25 +24,26 @@ try {
     // 接続失敗
     die("❌ データベース接続エラー: " . $e->getMessage());
 }
-
 function save_user($user_name,$user_age,$pdo){
     // ユーザー情報をデータベースに保存する関数
     $stmt = $pdo->prepare("INSERT INTO users (name, age) VALUES (:name, :age)");
     $stmt->execute([':name' => $user_name, ':age' => $user_age]);
 }
-
 function get_users($pdo){
     // ユーザー情報をデータベースから取得する関数
     $stmt = $pdo->query("SELECT * FROM users ORDER BY ID DESC");
     return $stmt->fetchAll();
 }
-
-function get_user($keyword, $pdo){
+function get_user_search($keyword, $pdo){
     $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword");
     $stmt->execute([':keyword' => "%{$keyword}%"]);
     return $stmt->fetchAll();
 }
-
+function update_user($id, $name, $age, $pdo){
+    // ユーザー情報を更新する関数
+    $stmt = $pdo->prepare("UPDATE users SET name = :name, age = :age WHERE ID = :id");
+    $stmt->execute([':name' => $name, ':age' => $age, ':id' => $id]);
+}
 function delete_user($id,$pdo){
     $stmt = $pdo->prepare("DELETE FROM users WHERE ID = :id");
     $stmt->execute([':id' => $id]);
