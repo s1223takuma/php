@@ -34,6 +34,14 @@ function get_users($pdo){
     $stmt = $pdo->query("SELECT * FROM users ORDER BY ID DESC");
     return $stmt->fetchAll();
 }
+function get_users_limit($pdo,$page,$limit = 10){
+    $offset = ($page - 1) * $limit;
+    if ($offset < 0) {
+        $offset = 0;
+    }
+    $stmt = $pdo->query("SELECT * FROM users ORDER BY ID DESC LIMIT $limit OFFSET $offset");
+    return $stmt->fetchAll();
+}
 function get_user_search($keyword, $pdo){
     $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword");
     $stmt->execute([':keyword' => "%{$keyword}%"]);
