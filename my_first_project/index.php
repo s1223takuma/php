@@ -38,10 +38,14 @@ if ($page < 1) {
     $page = 1;
 }
 if (isset($_POST["search"]) && $_POST["search"] != "") {
-    $data = get_user_search_limit($_POST["search"], $pdo,$page);
+    $data = get_user_search($_POST["search"], $pdo);
+    // $total_count = get_total_users_search($_POST["search"], $pdo);
+    $total_pages = 1;
 }
 else{
     $data = get_users_limit($pdo,$page);
+    $total_count = get_total_users( $pdo);
+    $total_pages = ceil($total_count /10);
 }
 
 $hobbies = ["読書","ゲーム","プログラミング"];
@@ -88,10 +92,11 @@ echo "<br>";
             <input type="number" id="age" name="age"><br>
             <?php
             foreach ($data as $index => $line) {
-                echo "ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
+                $num = $index + 1;
+                echo "{$num} ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
                 echo "<br>";
             }
-            for ($i = 1; $i <= count($data)/10+1; $i++) {
+            for ($i = 1; $i <= $total_pages; $i++) {
                 echo "<a href='?page={$i}'>[{$i}]</a> ";
             }
             ?>

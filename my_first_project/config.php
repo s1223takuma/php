@@ -43,7 +43,7 @@ function get_users_limit($pdo,$page,$limit = 10){
     return $stmt->fetchAll();
 }
 function get_user_search($keyword, $pdo){
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword ORDER BY ID DESC");
     $stmt->execute([':keyword' => "%{$keyword}%"]);
     return $stmt->fetchAll();
 }
@@ -58,6 +58,11 @@ function get_user_search_limit($keyword, $pdo,$page,$limit=10){
 }
 function get_total_users($pdo) {
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
+    return $stmt->fetchColumn();
+}
+function get_total_users_search($keyword,$pdo) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE name LIKE :keyword");
+    $stmt->execute([':keyword' => "%{$keyword}%"]);
     return $stmt->fetchColumn();
 }
 function update_user($id, $name, $age, $pdo){
