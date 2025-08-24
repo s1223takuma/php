@@ -52,9 +52,13 @@ function get_user_search_limit($keyword, $pdo,$page,$limit=10){
     if ($offset < 0) {
         $offset = 0;
     }
-    $stmt = $pdo->prepare("SELECT * FROM users ORDER BY ID DESC LIMIT $limit OFFSET $offset WHERE name LIKE :keyword");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE :keyword ORDER BY ID DESC LIMIT $limit OFFSET $offset");
     $stmt->execute([':keyword' => "%{$keyword}%"]);
     return $stmt->fetchAll();
+}
+function get_total_users($pdo) {
+    $stmt = $pdo->query("SELECT COUNT(*) FROM users");
+    return $stmt->fetchColumn();
 }
 function update_user($id, $name, $age, $pdo){
     // ユーザー情報を更新する関数

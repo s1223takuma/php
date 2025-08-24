@@ -91,7 +91,9 @@ echo "<br>";
                 echo "ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
                 echo "<br>";
             }
-            for ($i = 1; $i <= count($data)/10+1; $i++) {
+            $total_count = get_total_users($pdo);
+        $total_pages = ceil($total_count / 10);
+            for ($i = 1; $i <= $total_pages; $i++) {
                 echo "<a href='?page={$i}'>[{$i}]</a> ";
             }
             ?>
