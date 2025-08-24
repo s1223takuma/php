@@ -47,6 +47,15 @@ function get_user_search($keyword, $pdo){
     $stmt->execute([':keyword' => "%{$keyword}%"]);
     return $stmt->fetchAll();
 }
+function get_user_search_limit($keyword, $pdo,$page,$limit=10){
+    $offset = ($page - 1) * $limit;
+    if ($offset < 0) {
+        $offset = 0;
+    }
+    $stmt = $pdo->prepare("SELECT * FROM users ORDER BY ID DESC LIMIT $limit OFFSET $offset WHERE name LIKE :keyword");
+    $stmt->execute([':keyword' => "%{$keyword}%"]);
+    return $stmt->fetchAll();
+}
 function update_user($id, $name, $age, $pdo){
     // ユーザー情報を更新する関数
     $stmt = $pdo->prepare("UPDATE users SET name = :name, age = :age WHERE ID = :id");

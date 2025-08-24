@@ -33,11 +33,15 @@ else if (isset($_POST["update"])) {
         echo "❌ ユーザー情報が送信されていません。";
     }
 }
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) {
+    $page = 1;
+}
 if (isset($_POST["search"]) && $_POST["search"] != "") {
-    $data = get_user_search($_POST["search"], $pdo);
+    $data = get_user_search_limit($_POST["search"], $pdo,$page);
 }
 else{
-    $data = get_users($pdo);
+    $data = get_users_limit($pdo,$page);
 }
 
 $hobbies = ["読書","ゲーム","プログラミング"];
@@ -76,7 +80,7 @@ echo "<br>";
             <input type="text" name="search" placeholder="名前で検索">
             <input type="submit" value="検索">
         </form>
-        <h2>ユーザー一覧</h2>
+        <h3>ユーザー一覧</h3>
         <form method="post" action="index.php">
             <label for="name">名前(更新用):</label><br>
             <input type="text" id="name" name="name"><br>
@@ -86,6 +90,9 @@ echo "<br>";
             foreach ($data as $index => $line) {
                 echo "ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
                 echo "<br>";
+            }
+            for ($i = 1; $i <= count($data)/10+1; $i++) {
+                echo "<a href='?page={$i}'>[{$i}]</a> ";
             }
             ?>
         </form>
