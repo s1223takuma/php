@@ -8,7 +8,6 @@ if (isset($_POST["submit"])){
         $age = $_POST["age"];
         $user_name = $_POST["name"];
         $user_age = $_POST["age"];
-        // ユーザー情報を保存
     if ($name != "" && $age != "") {
             try {
                 save_user($user_name, $user_age, $pdo);

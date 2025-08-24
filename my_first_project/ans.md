@@ -3,22 +3,37 @@
 ## 　問題1
 ### 1.変数 $name に自分の名前を代入
 
-```
-$name = soda;
+```php
+$name = "soda";
 ```
 
 ### 2.変数 $age に年齢を代入
 
-```
+```php
 $age = 18;
 ```
 
 ### 3.変数 $hobbies に趣味を配列で3つ以上代入
 
+```php
+$hobbies = ["読書","ゲーム","プログラミング"];
+```
+
 ### 4.HTMLページとして、以下を表示：
 * 「こんにちは、[名前]です」
 * 「年齢は[年齢]歳です」
 * 「趣味：」の後に趣味をリスト形式で表示
+
+```php
+echo "{$name}です。<br>";
+echo "年齢は{$age}歳です。<br>";
+echo "趣味は";
+foreach ($hobbies as $hobbie) {
+    echo "{$hobbie},";
+}
+echo "です。";
+echo "<br>";
+```
 
 ## 問題2
 ### 1.年齢によってメッセージを変える機能を追加：
@@ -26,15 +41,89 @@ $age = 18;
 * 20歳以上65歳未満：「お仕事頑張ってください！」
 * 65歳以上：「人生の大先輩ですね！」
 
+```php
+if ($age < 20){
+    echo "学生さんですね！";
+}else if ($age >= 20 && $age <65){
+    echo "お仕事頑張ってください！";
+}else{
+    echo "人生の大先輩ですね！";
+}
+echo "<br>";
+```
+
 ## 問題3
 ### 1.名前と年齢を入力できるフォームを作成し、送信時に問題1,2の内容を表示する仕組みを作ってください。
 
+```html
+<html>
+    <head>
+        <title>お問い合わせフォーム</title>
+    </head>
+    <body>
+        <form method="post" action="index.php">
+            <label for="name">名前:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="age">年齢:</label><br>
+            <input type="number" id="age" name="age"><br>
+            <input type="submit" name="submit" value="送信"><br>
+        </form>
+    </body>
+</html>
+```
+
+```php
+$name = $_POST["name"];
+$age = $_POST["age"];
+```
+
 ### 2.フォームが送信された時だけPHPの処理を実行するようにしてみてください。
+
+```php
+if (isset($_POST["submit"])){
+    if (isset($_POST["name"]) && isset($_POST["age"])) {
+        $name = $_POST["name"];
+        $age = $_POST["age"];
+    }
+}
+```
 
 ## 問題4
 ### 1.フォームが送信されたら、名前と年齢をdata.txtに追加保存(保存形式は「名前,年齢」で1行ずつ)
 
+```php
+if (isset($_POST["submit"])){
+    if (isset($_POST["name"]) && isset($_POST["age"])) {
+        $name = $_POST["name"];
+        $age = $_POST["age"];
+        file_put_contents("data.txt","名前{$name},年齢{$age}\n",FILE_APPEND);
+    }
+}
+```
+
 ### 2.ページ下部に今まで登録された全データを表示
+
+```html
+<html>
+  <head>
+    <title>お問い合わせフォーム</title>
+  </head>
+  <body>
+    <form method="post" action="index.php">
+      <label for="name">名前:</label><br>
+      <input type="text" id="name" name="name"><br>
+      <label for="age">年齢:</label><br>
+      <input type="number" id="age" name="age"><br>
+      <input type="submit" value="送信"><br>
+    </form>
+    <h2>送信されたデータ</h2> // 追加
+    <pre> // 追加
+    <?php // 追加
+        echo htmlspecialchars($data); // 追加
+    ?> // 追加
+  </body>
+</html>
+```
 
 ## 問題5
 ### 1.表示されたデータの横に「削除」ボタンを付けて、クリックしたらそのデータを削除できるようにしてください。
