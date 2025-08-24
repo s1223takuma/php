@@ -74,3 +74,27 @@
 
 ## 問題13
 ### データが多くなった時に1ページ10件ずつ表示する機能
+
+## 問題14
+### 1.ログイン機能の初期設定
+* phpMyAdminで新しいテーブル``login_users``を作成
+> * id (INT, AUTO_INCREMENT, PRIMARY KEY)
+> * username (VARCHAR(50), UNIQUE)
+> * password (VARCHAR(255))
+> * created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+
+## 問題15
+### 1.ユーザー登録フォームの作成
+
+### 2.パスワードを``password_hash()``を使って暗号化し保存
+
+### 3.同じユーザー名を登録できないように
+
+## 問題16
+### 1.ログインフォームの作成
+
+### 2.``password_verify()``でパスワード照合
+
+### 3.ログイン成功時はセッションに情報保存
+
+### 4.ログイン済みユーザーのみデータ操作可能にする
