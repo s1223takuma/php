@@ -282,8 +282,23 @@ if (isset($_POST["delete"])) {
 
 ## 問題11
 ### 1.検索フォームを追加（名前で部分検索）
+```html
+<form method="post" action="index.php">
+    <input type="text" name="search" placeholder="名前で検索">
+    <input type="submit" value="検索">
+</form>
+```
 
 ### 2.検索結果のみを表示する機能
+
+```php
+if (isset($_POST["search"]) && $_POST["search"] != "") {
+    $data = get_user_search($_POST["search"], $pdo);
+}
+else{
+    $data = get_users_limit($pdo,$page);
+}
+```
 
 ## 問題12
 ### 1.各データに「編集」ボタンを追加
