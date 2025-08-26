@@ -302,10 +302,37 @@ else{
 
 ## 問題12
 ### 1.各データに「編集」ボタンを追加
+```php
+echo "{$num} ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
+```
 
 ### 2.クリックすると名前と年齢を変更できるフォームを表示
 
+```html
+<label for="name">名前(更新用):</label><br>
+<input type="text" id="name" name="name"><br>
+<label for="age">年齢(更新用):</label><br>
+<input type="number" id="age" name="age"><br>
+```
+
 ### 3.更新処理
+
+```php
+else if (isset($_POST["update"])) {
+    $name = $_POST["name"];
+    $age = $_POST["age"];
+    if (isset($_POST["name"]) && isset($_POST["age"])) {
+        $id = $_POST["update"];
+        try {
+            update_user($id, $name, $age, $pdo);
+        } catch (PDOException $e) {
+            echo "❌ DBエラー: " . $e->getMessage();
+        }
+    } else {
+        echo "❌ ユーザー情報が送信されていません。";
+    }
+}
+```
 
 ## 問題13
 ### データが多くなった時に1ページ10件ずつ表示する機能
