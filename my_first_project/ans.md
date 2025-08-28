@@ -336,6 +336,28 @@ else if (isset($_POST["update"])) {
 
 ## 問題13
 ### データが多くなった時に1ページ10件ずつ表示する機能
+```php
+function get_users_limit($pdo,$page,$limit = 10){
+    $offset = ($page - 1) * $limit;
+    if ($offset < 0) {
+        $offset = 0;
+    }
+    $stmt = $pdo->query("SELECT * FROM users ORDER BY ID DESC LIMIT $limit OFFSET $offset");
+    return $stmt->fetchAll();
+}
+```
+```php
+<?php
+            foreach ($data as $index => $line) {
+                $num = $index + 1;
+                echo "{$num} ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
+                echo "<br>";
+            }
+            for ($i = 1; $i <= $total_pages; $i++) {
+                echo "<a href='?page={$i}'>[{$i}]</a> ";
+            }
+?>
+```
 
 ## 問題14
 ### 1.ログイン機能の初期設定
