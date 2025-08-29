@@ -367,6 +367,10 @@ function get_users_limit($pdo,$page,$limit = 10){
 > * password (VARCHAR(255))
 > * created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
 
+```
+http://localhost/phpmyadmin/index.php?route=/server/databasesで作成
+```
+
 ## 問題15
 ### 1.ユーザー登録フォームの作成
 
