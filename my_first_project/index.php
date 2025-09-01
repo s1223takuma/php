@@ -15,6 +15,8 @@ if (isset($_POST["submit"])){
             }
         }
     }
+}else if (isset($_POST["login"])){
+    
 }else if (isset($_POST["delete"])) {
     delete_user($_POST["delete"], $pdo);
 }
@@ -71,6 +73,14 @@ echo "<br>";
         <title>お問い合わせフォーム</title>
     </head>
     <body>
+        <h2>ログイン</h2>
+        <form method="post" action="index.php">
+            <label for="username">ユーザー名:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">パスワード:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <input type="submit" name="login" value="ログイン"><br>
+        </form>
         <form method="post" action="index.php">
             <label for="name">名前:</label><br>
             <input type="text" id="name" name="name"><br>
