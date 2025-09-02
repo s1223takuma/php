@@ -15,9 +15,12 @@ if (isset($_POST["submit"])){
             }
         }
     }
+}else if (isset($_POST["create_account"])){
+    $islogin = save_loginuser($_POST["username"],$_POST["password"],$pdo);
 }else if (isset($_POST["login"])){
-    save_loginuser($_POST["username"],$_POST["password"],$pdo);
-}else if (isset($_POST["delete"])) {
+    $islogin = check_login($_POST["username"],$_POST["password"],$pdo);
+}
+else if (isset($_POST["delete"])) {
     delete_user($_POST["delete"], $pdo);
 }
 else if (isset($_POST["update"])) {
@@ -67,48 +70,9 @@ if ($age < 20){
 }
 echo "<br>";
 echo "<br>";
+if ($islogin){
+    include 'content.php';
+}else{
+    include 'login.php';
+}
 ?>
-<html>
-    <head>
-        <title>お問い合わせフォーム</title>
-    </head>
-    <body>
-        <h2>ログイン</h2>
-        <form method="post" action="index.php">
-            <label for="username">ユーザー名:</label><br>
-            <input type="text" id="username" name="username"><br>
-            <label for="password">パスワード:</label><br>
-            <input type="password" id="password" name="password"><br>
-            <input type="submit" name="login" value="ログイン"><br>
-        </form>
-        <form method="post" action="index.php">
-            <label for="name">名前:</label><br>
-            <input type="text" id="name" name="name"><br>
-            <label for="age">年齢:</label><br>
-            <input type="number" id="age" name="age"><br>
-            <input type="submit" name="submit" value="送信"><br>
-        </form>
-        <h2>送信されたデータ</h2>
-        <form method="post" action="index.php">
-            <input type="text" name="search" placeholder="名前で検索">
-            <input type="submit" value="検索">
-        </form>
-        <h3>ユーザー一覧</h3>
-        <form method="post" action="index.php">
-            <label for="name">名前(更新用):</label><br>
-            <input type="text" id="name" name="name"><br>
-            <label for="age">年齢(更新用):</label><br>
-            <input type="number" id="age" name="age"><br>
-            <?php
-            foreach ($data as $index => $line) {
-                $num = $index + 1;
-                echo "{$num} ID:{$line["ID"]} 名前:{$line["name"]} 年齢:{$line["age"]}" . "<button type='submit' name='update' value='{$line["ID"]}'>編集</button><button type='submit' name='delete' value='{$line["ID"]}'>削除</button>";
-                echo "<br>";
-            }
-            for ($i = 1; $i <= $total_pages; $i++) {
-                echo "<a href='?page={$i}'>[{$i}]</a> ";
-            }
-            ?>
-        </form>
-    </body>
-</html>

@@ -77,5 +77,15 @@ function delete_user($id,$pdo){
 function save_loginuser($username, $password, $pdo) {
     $stmt = $pdo->prepare("INSERT INTO login_users (username, password) VALUES (:username, :password)");
     $stmt->execute([':username' => $username, ':password' => password_hash($password, PASSWORD_DEFAULT)]);
+    return true;
+}
+function check_login($username, $password, $pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM login_users WHERE username = :username");
+    $stmt->execute([':username' => $username]);
+    $user = $stmt->fetch();
+    if ($user && password_verify($password, $user['password'])) {
+        return true;
+    }
+    return false;
 }
 ?>
