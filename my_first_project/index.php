@@ -16,7 +16,7 @@ if (isset($_POST["submit"])){
         }
     }
 }else if (isset($_POST["login"])){
-    
+    save_loginuser($_POST["username"],$_POST["password"],$pdo);
 }else if (isset($_POST["delete"])) {
     delete_user($_POST["delete"], $pdo);
 }

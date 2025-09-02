@@ -74,4 +74,8 @@ function delete_user($id,$pdo){
     $stmt = $pdo->prepare("DELETE FROM users WHERE ID = :id");
     $stmt->execute([':id' => $id]);
 }
+function save_loginuser($username, $password, $pdo) {
+    $stmt = $pdo->prepare("INSERT INTO login_users (username, password) VALUES (:username, :password)");
+    $stmt->execute([':username' => $username, ':password' => password_hash($password, PASSWORD_DEFAULT)]);
+}
 ?>
