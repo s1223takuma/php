@@ -32,5 +32,6 @@
             }
             ?>
         </form>
+        <button name="logout">ログアウト</button>
     </body>
 </html>

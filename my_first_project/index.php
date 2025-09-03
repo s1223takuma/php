@@ -16,9 +16,15 @@ if (isset($_POST["submit"])){
         }
     }
 }else if (isset($_POST["create_account"])){
-    $islogin = save_loginuser($_POST["username"],$_POST["password"],$pdo);
+    session_start();
+    $_SESSION["islogin"] = save_loginuser($_POST["username"],$_POST["password"],$pdo);
 }else if (isset($_POST["login"])){
-    $islogin = check_login($_POST["username"],$_POST["password"],$pdo);
+    session_start();
+    $_SESSION["islogin"] = check_login($_POST["username"],$_POST["password"],$pdo);
+}else if (isset($_POST["logout"])){
+    session_start();
+    $_SESSION = [];
+    session_destroy();
 }
 else if (isset($_POST["delete"])) {
     delete_user($_POST["delete"], $pdo);
@@ -70,7 +76,7 @@ if ($age < 20){
 }
 echo "<br>";
 echo "<br>";
-if ($islogin){
+if ($_SESSION["islogin"]){
     include 'content.php';
 }else{
     include 'login.php';
