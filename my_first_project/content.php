@@ -3,6 +3,9 @@
         <title>お問い合わせフォーム</title>
     </head>
     <body>
+        <?php if (isset($_SESSION["username"])): ?>
+            <p>ようこそ、<?= $_SESSION["username"] ?>さん！</p>
+        <?php endif; ?>
         <form method="post" action="index.php">
             <label for="name">名前:</label><br>
             <input type="text" id="name" name="name"><br>
@@ -32,6 +35,8 @@
             }
             ?>
         </form>
-        <button name="logout">ログアウト</button>
+        <form method="post" action="index.php">
+            <input type="submit" name="logout" value="ログアウト">
+        </form>
     </body>
 </html>

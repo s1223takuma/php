@@ -84,8 +84,12 @@ function check_login($username, $password, $pdo) {
     $stmt->execute([':username' => $username]);
     $user = $stmt->fetch();
     if ($user && password_verify($password, $user['password'])) {
+        $_SESSION["user_id"] = $user['id'];
+        $_SESSION["username"] = $user['username'];
         return true;
     }
     return false;
 }
+
+
 ?>

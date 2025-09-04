@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config.php';
 $name = null;
 $age = null;
@@ -16,14 +17,11 @@ if (isset($_POST["submit"])){
         }
     }
 }else if (isset($_POST["create_account"])){
-    session_start();
     $_SESSION["islogin"] = save_loginuser($_POST["username"],$_POST["password"],$pdo);
 }else if (isset($_POST["login"])){
-    session_start();
     $_SESSION["islogin"] = check_login($_POST["username"],$_POST["password"],$pdo);
 }else if (isset($_POST["logout"])){
-    session_start();
-    $_SESSION = [];
+    $_SESSION["islogin"] = false;
     session_destroy();
 }
 else if (isset($_POST["delete"])) {
@@ -76,7 +74,7 @@ if ($age < 20){
 }
 echo "<br>";
 echo "<br>";
-if ($_SESSION["islogin"]){
+if (isset($_SESSION["islogin"]) && $_SESSION["islogin"]){
     include 'content.php';
 }else{
     include 'login.php';
